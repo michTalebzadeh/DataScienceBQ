@@ -1,0 +1,33 @@
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
+    <id>release</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+
+    <files>
+        <file>
+            <outputDirectory>jars</outputDirectory>
+            <destName>${artifactId}-release.jar</destName>
+            <source>./target/${artifactId}-${version}-jar-with-dependencies.jar</source>
+
+        </file>
+    </files>
+    <fileSets>
+        <fileSet>
+            <includes>
+                <include>README*</include>
+            </includes>
+        </fileSet>
+
+        <fileSet>
+            <directory>./deployment/src/envconfigs</directory>
+            <outputDirectory>envconfigs</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>./deployment/src/scripts</directory>
+            <outputDirectory>scripts</outputDirectory>
+        </fileSet>
+    </fileSets>
+</assembly>
