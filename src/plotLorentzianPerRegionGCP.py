@@ -26,7 +26,7 @@ def main():
     lst = (spark.sql("SELECT FROM_unixtime(unix_timestamp(), 'dd/MM/yyyy HH:mm:ss.ss') ")).collect()
     print("\nStarted at");uf.println(lst)
     # Model predictions
-    read_df = s.loadTableintoBQ(spark,config['GCPVariables']['sourceDataset'],config['GCPVariables']['sourceTable'])
+    read_df = s.loadTableFromBQ(spark,config['GCPVariables']['sourceDataset'],config['GCPVariables']['sourceTable'])
     df_10 = read_df.filter(F.date_format('Date',"yyyyMM").cast("Integer").between(f'{start_date}', f'{end_date}') & (lower(col("regionname"))== f'{regionname}'.lower())). \
             select(F.date_format('Date',"yyyyMM").cast("Integer").alias("Date") \
                  , round(col("flatprice")).alias("flatprice") \

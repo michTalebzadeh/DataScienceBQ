@@ -24,7 +24,7 @@ def main():
     lst = (spark.sql("SELECT FROM_unixtime(unix_timestamp(), 'dd/MM/yyyy HH:mm:ss.ss') ")).collect()
     spark = s.setSparkConfBQ(spark)
     print("\nStarted at");uf.println(lst)
-    read_df = s.loadTableintoBQ(spark, config['GCPVariables']['targetDataset'], tableName)
+    read_df = s.loadTableFromBQ(spark, config['GCPVariables']['targetDataset'], tableName)
     summary_df = read_df.select(col("Year"), col("percent_change").alias("PercentYearlyChange"))
     p_df = summary_df.toPandas()
     print(p_df)

@@ -20,10 +20,10 @@ def main():
     lst = (spark.sql("SELECT FROM_unixtime(unix_timestamp(), 'dd/MM/yyyy HH:mm:ss.ss') ")).collect()
     print("\nStarted at");uf.println(lst)
     wSpecY = Window().partitionBy(F.date_format('Date',"yyyy"), 'regionname')
-    house_df = s.loadTableFromBQ(spark,config['GCPVariables']['sourceDataset'],config['GCPVariables']['sourceTable'])
+    house_df = s.loadTableFromBQSimba(spark,config['GCPVariables']['inputTable'])
     house_df.printSchema()
     house_df.show(2, False)
-
+    sys.exit(0)
     print(f"""\nAnnual House prices per regions in GBP""")
     # Workout yearly aversge prices
     df2 = house_df. \
@@ -36,6 +36,7 @@ def main():
                         , round(F.avg('SemiDetachedPrice').over(wSpecY)).alias('AVGSemiDetachedPricePerYear') \
                         , round(F.avg('DetachedPrice').over(wSpecY)).alias('AVGDetachedPricePerYear')). \
                     distinct().orderBy('Date', asending=True)
+
     df2.show(20,False)
     s.writeTableToBQ(df2,"overwrite",config['GCPVariables']['targetDataset'],config['GCPVariables']['yearlyAveragePricesAllTable'])
     print(f"""created {config['GCPVariables']['yearlyAveragePricesAllTable']}""")

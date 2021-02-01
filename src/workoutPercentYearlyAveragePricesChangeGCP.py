@@ -24,7 +24,7 @@ def main():
     yearTable = f"""{config['GCPVariables']['percentYearlyHousePriceChange']}_{short}"""
     lst = (spark.sql("SELECT FROM_unixtime(unix_timestamp(), 'dd/MM/yyyy HH:mm:ss.ss') ")).collect()
     spark = s.setSparkConfBQ(spark)
-    read_df = s.loadTableintoBQ(spark,config['GCPVariables']['targetDataset'],config['GCPVariables']['yearlyAveragePricesAllTable'])
+    read_df = s.loadTableFromBQ(spark,config['GCPVariables']['targetDataset'],config['GCPVariables']['yearlyAveragePricesAllTable'])
     house_df = read_df.filter((col("Year").between(f'{start_date}', f'{end_date}')) & (lower(col("regionname"))== f'{regionname}'.lower()))
     wSpecPY = Window().orderBy('regionname', 'Year')
     df_lagY = house_df.withColumn("prev_year_value", F.lag(house_df['AVGPricePerYear']).over(wSpecPY))

@@ -16,14 +16,20 @@ plot_fonts:
     'size': 7
 
 hiveVariables:
-  DSDB: "DS"
+  DSDB: DS
   regionname: "Kensington and Chelsea"
-  Boston_csvlocation: "hdfs://rhes75:9000/ds/Boston.csv"
-  London_csvLocation: "hdfs://rhes75:9000/ds/UK-HPI-full-file-2020-01.csv"
-  settings :
-      ("hive.exec.dynamic.partition", "true"),
-      ("hive.exec.dynamic.partition.mode", "nonstrict"),
-      ("hive.stats.autogather", "true")
+  Boston_csvlocation: hdfs://rhes75:9000/ds/Boston.csv
+  London_csvLocation: hdfs://rhes75:9000/ds/UK-HPI-full-file-2020-01.csv
+  hive_driver: com.cloudera.hive.jdbc41.HS2Driver
+  #hive_driver: "com.ddtek.jdbcx.hive.HiveDataSource"
+  #hive_driver: "com.ddtek.jdbc.hive.HiveDriver"
+  #hive_driver: "org.apache.hive.jdbc.HiveDriver"
+  hiveHost: rhes75
+  hivePort: "10099"
+  #hive_url: "jdbc:hive2://rhes75:10099/default;"
+  hive_user: hduser
+  hive_password: hduser
+  fetchsize: "1000"
 
 GCPVariables:
   projectId: 'axial-glow-224522'
@@ -43,4 +49,26 @@ GCPVariables:
   yearlyAveragePricesAllTable: "yearlyaveragepricesAllTable"
   percentYearlyHousePriceChange: "percentyearlyhousepricechange"
 
+ParquetVariables:
+  sourceLocation: "gs://etcbucket/randomdata/archive/randomdatapy"
+  targetLocation: "gs://etcbucket/randomdatapy_target"
+  sourceSmall: "gs://etcbucket/randomdata/archive/randomdatasmall"
+  append: "append"
+  overwrite: "overwrite"
+
+OracleVariables:
+  oracle_driver: oracle.jdbc.OracleDriver
+  oracle_user: scratchpad
+  oracle_password: oracle
+  dbschema: SCRATCHPAD
+  oracleHost: rhes564
+  oraclePort: "1521"
+  oracleDB: mydb12
+  url: jdbc:oracle:thin:@{{oracleHost}}:{{oraclePort}}:{{oracleDB}}
+  #oracle_url: "jdbc:oracle:thin:@rhes564:1521:mydb12"
+  serviceName: <oracleDB>.mich.local
+  sourceTable: ukhouseprices
+  fetchsize: "1000"
+  yearlyAveragePricesAllTable: "yearlyaveragepricesAllTable"
+  percentYearlyHousePriceChange: "percentyearlyhousepricechange"
 
