@@ -64,7 +64,7 @@ OracleVariables:
   oracleHost: rhes564
   oraclePort: "1521"
   oracleDB: mydb12
-  url: jdbc:oracle:thin:@{{oracleHost}}:{{oraclePort}}:{{oracleDB}}
+  #url: jdbc:oracle:thin:@{{oracleHost}}:{{oraclePort}}:{{oracleDB}}
   #oracle_url: "jdbc:oracle:thin:@rhes564:1521:mydb12"
   serviceName: <oracleDB>.mich.local
   sourceTable: ukhouseprices
