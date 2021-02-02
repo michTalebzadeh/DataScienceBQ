@@ -9,7 +9,7 @@ from pyspark.sql.functions import col
 try:
   import parameters as v
 except ModuleNotFoundError:
-  from conf import parameters as v
+  from configs import parameters as v
 
 class SomeClass:
     def main():

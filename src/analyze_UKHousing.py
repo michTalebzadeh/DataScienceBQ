@@ -11,7 +11,7 @@ locale.setlocale(locale.LC_ALL, 'en_GB')
 try:
   import variables as v
 except ModuleNotFoundError:
-  from conf import parameters as v
+  from configs import parameters as v
 
 appName = "ukhouseprices"
 spark = s.spark_session(appName)

@@ -63,8 +63,8 @@ ${SPARK_HOME}/bin/spark-submit \
 	 --master local \
          --num-executors 1 \
          --executor-memory 1G \
-         --conf spark.driver.extraJavaOptions="-Dlog4j.configuration=../envconfigs/$env/log4j.properties" \
-         --conf spark.executor.extraJavaOptions="-Dlog4j.configuration=../envconfigs/$env/log4j.properties" \
+         --configs spark.driver.extraJavaOptions="-Dlog4j.configuration=../envconfigs/$env/log4j.properties" \
+         --configs spark.executor.extraJavaOptions="-Dlog4j.configuration=../envconfigs/$env/log4j.properties" \
 	 --class com.lbg.pas.alerts.bigdata.brst.app.BroadcastStagingApp \
          --jars ${JAR_FILES} \
 	 --files ${FILES} \
@@ -82,9 +82,9 @@ default_settings
 	 --executor-cores 2  \
          --num-executors 4 \
          --executor-memory 8G \
-         --conf "${SCHEDULER}" \
-         --conf spark.driver.extraJavaOptions="-Dlog4j.configuration=../envconfigs/$env/log4j.properties" \
-         --conf spark.executor.extraJavaOptions="-Dlog4j.configuration=../envconfigs/$env/log4j.properties" \
+         --configs "${SCHEDULER}" \
+         --configs spark.driver.extraJavaOptions="-Dlog4j.configuration=../envconfigs/$env/log4j.properties" \
+         --configs spark.executor.extraJavaOptions="-Dlog4j.configuration=../envconfigs/$env/log4j.properties" \
 	 --class com.lbg.pas.alerts.bigdata.brst.app.BroadcastStagingApp \
          --jars ${JAR_FILES} \
 	 --files ${FILES} \
