@@ -48,7 +48,7 @@ spark =s.spark_session(appName)
 rows = spark.read.csv(v.Boston_csvlocation, header="true").count()
 print("\nnumber of rows is ",rows)
 if (rows == 0):
-         println("Empty CSV directory, aborting!")
+         print("Empty CSV directory, aborting!")
          sys.exit(1)
 
 house_df = spark.read.csv(v.Boston_csvlocation, header="true")
