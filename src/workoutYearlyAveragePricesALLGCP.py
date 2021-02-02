@@ -28,7 +28,7 @@ def main():
     # Workout yearly aversge prices
     df2 = house_df. \
                     select( \
-                          F.date_format('Date','yyyy').alias('Year') \
+                          F.date_format('Date', 'yyyy').cast("Integer").alias('year') \
                         , 'regionname' \
                         , round(F.avg('averageprice').over(wSpecY)).alias('AVGPricePerYear') \
                         , round(F.avg('flatprice').over(wSpecY)).alias('AVGFlatPricePerYear') \
