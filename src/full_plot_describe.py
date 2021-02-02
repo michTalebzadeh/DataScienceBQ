@@ -8,7 +8,7 @@ from pyspark.sql.functions import col
 try:
   import parameters as v
 except ModuleNotFoundError:
-  from configs import parameters as v
+  from conf import parameters as v
 
 def functionLorentzian(x, amp1, cen1, wid1, amp2,cen2,wid2, amp3,cen3,wid3):
     return (amp1*wid1**2/((x-cen1)**2+wid1**2)) +\

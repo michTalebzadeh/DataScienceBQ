@@ -10,7 +10,7 @@ from othermisc import usedFunctions as uf
 try:
   import parameters as v
 except ModuleNotFoundError:
-  from configs import parameters as v
+  from conf import parameters as v
 from pyspark.sql import SparkSession
 from pyspark import SparkContext
 from pyspark.sql import SQLContext, HiveContext

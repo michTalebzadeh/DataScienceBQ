@@ -10,7 +10,7 @@ from pyspark.ml.evaluation import RegressionEvaluator
 try:
   import variables as v
 except ModuleNotFoundError:
-  from configs import parameters as v
+  from conf import parameters as v
 import sparkutils.sparkstuff as s
 import numpy as np # linear algebra
 import matplotlib.pyplot as plt

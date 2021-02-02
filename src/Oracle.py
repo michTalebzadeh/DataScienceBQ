@@ -9,7 +9,7 @@ from sparkutils import sparkstuff as s
 from othermisc import usedFunctions as uf
 import locale
 locale.setlocale(locale.LC_ALL, 'en_GB')
-
+from config import config
 
 def main():
     print (f"""Getting average yearly prices per region for all""")
