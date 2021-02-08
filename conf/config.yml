@@ -72,3 +72,15 @@ OracleVariables:
   yearlyAveragePricesAllTable: "yearlyaveragepricesAllTable"
   percentYearlyHousePriceChange: "percentyearlyhousepricechange"
 
+MysqlVariables:
+  Mysql_driver: com.mysql.cj.jdbc.Driver
+  Mysql_user: scratchpad
+  Mysql_password: oracle
+  dbschema: scratchpad
+  MysqlHost: localhost
+  sourceTable: test_ukhouseprices
+  fetchsize: "1000"
+  yearlyAveragePricesAllTable: test_yearlyAvgPrice
+  percentYearlyHousePriceChange: "test_percentyearlyhousepricechange"
+  read_df_rows: 200
+  mode: overwrite
