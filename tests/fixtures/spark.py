@@ -8,11 +8,11 @@ from pyspark.sql import SparkSession
 import pytest
 import shutil
 @pytest.fixture(scope="session")
-def spark_session():
-    spark_session = SparkSession.builder \
+def spark():
+    spark= SparkSession.builder \
         .master('local[1]') \
         .appName('test') \
         .enableHiveSupport() \
         .getOrCreate()
-    return spark_session
+    return spark
 

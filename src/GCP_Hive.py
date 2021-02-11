@@ -1,5 +1,5 @@
 from __future__ import print_function
-from src.config import config
+from src.config import config, hive_url
 import sys
 from pyspark.sql import functions as F
 from pyspark.sql.functions import col, round
@@ -20,12 +20,15 @@ class GCP_Hive():
 
         print (f"""Getting average yearly prices per region for all""")
         # read data through jdbc from Hive
-
         wSpecY = Window().partitionBy(F.date_format('datetaken', "yyyy"), 'regionname')
         tableName=self.config['GCPVariables']['sourceTable']
         fullyQualifiedTableName = self.config['hiveVariables']['DSDB']+'.'+tableName
+        user = self.config['hiveVariables']['hive_user']
+        password = self.config['hiveVariables']['hive_password']
+        driver = self.config['hiveVariables']['hive_driver']
+        fetchsize = self.config['hiveVariables']['fetchsize']
         print("reading from Hive table")
-        house_df = s.loadTableFromHiveJDBC(self.spark,fullyQualifiedTableName)
+        house_df = s.loadTableFromJDBC(self.spark,hive_url,fullyQualifiedTableName,user,password,driver,fetchsize)
         house_df.printSchema()
         house_df.show(5,False)
         return house_df

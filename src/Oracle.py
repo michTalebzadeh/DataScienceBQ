@@ -1,6 +1,6 @@
 from __future__ import print_function
 import sys
-from src.config import config
+from src.config import config, oracle_url
 from pyspark.sql import functions as F
 from pyspark.sql.functions import col, round
 from pyspark.sql.window import Window
@@ -8,7 +8,6 @@ from sparkutils import sparkstuff as s
 from othermisc import usedFunctions as uf
 import locale
 locale.setlocale(locale.LC_ALL, 'en_GB')
-
 
 class Oracle():
     def __init__(self, spark_session):
@@ -19,8 +18,12 @@ class Oracle():
         # read data through jdbc from Oracle
         tableName = self.config['OracleVariables']['sourceTable']
         fullyQualifiedTableName = self.config['OracleVariables']['dbschema']+'.'+tableName
+        user = self.config['OracleVariables']['oracle_user']
+        password = self.config['OracleVariables']['oracle_password']
+        driver = self.config['OracleVariables']['oracle_driver']
+        fetchsize = self.config['OracleVariables']['fetchsize']
         print("reading from Oracle table")
-        house_df = s.loadTableFromOracleJDBC(self.spark,fullyQualifiedTableName)
+        house_df = s.loadTableFromJDBC(self.spark,oracle_url,fullyQualifiedTableName,user,password,driver,fetchsize)
         house_df.printSchema()
         house_df.show(5,False)
         return house_df
@@ -46,11 +49,17 @@ class Oracle():
 
     def loadIntoOracleTable(self, df2):
         # write to Oracle table, all uppercase not mixed case and column names <= 30 characters in version 12.1
-        s.writeTableToOracle(df2,"overwrite",config['OracleVariables']['dbschema'],config['OracleVariables']['yearlyAveragePricesAllTable'])
+        tableName = self.config['OracleVariables']['yearlyAveragePricesAllTable']
+        fullyQualifiedTableName = self.config['OracleVariables']['dbschema']+'.'+tableName
+        user = self.config['OracleVariables']['oracle_user']
+        password = self.config['OracleVariables']['oracle_password']
+        driver = self.config['OracleVariables']['oracle_driver']
+        mode = self.config['OracleVariables']['mode']
+        s.writeTableWithJDBC(df2,oracle_url,fullyQualifiedTableName,user,password,driver,mode)
         print(f"""created {config['OracleVariables']['yearlyAveragePricesAllTable']}""")
         # read data to ensure all loaded OK
-        fullyQualifiedTableName = config['OracleVariables']['dbschema'] + '.' + config['OracleVariables']['yearlyAveragePricesAllTable']
-        read_df = s.loadTableFromOracleJDBC(self.spark, fullyQualifiedTableName)
+        fetchsize = self.config['OracleVariables']['fetchsize']
+        read_df = s.loadTableFromJDBC(self.spark,oracle_url,fullyQualifiedTableName,user,password,driver,fetchsize)
         # check that all rows are there
         if df2.subtract(read_df).count() == 0:
             print("Data has been loaded OK to Oracle table")

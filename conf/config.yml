@@ -69,6 +69,7 @@ OracleVariables:
   serviceName: <oracleDB>.mich.local
   sourceTable: ukhouseprices
   fetchsize: "1000"
+  mode: "overwrite"
   yearlyAveragePricesAllTable: "yearlyaveragepricesAllTable"
   percentYearlyHousePriceChange: "percentyearlyhousepricechange"
 

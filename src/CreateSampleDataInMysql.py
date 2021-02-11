@@ -1,4 +1,5 @@
 from __future__ import print_function
+import pytest
 import sys
 from src.config import config
 from src.config import ctest, test_url
@@ -9,6 +10,7 @@ from pyspark.sql.window import Window
 import locale
 locale.setlocale(locale.LC_ALL, 'en_GB')
 
+@pytest.fixture(scope = "session")
 def extractHiveData():
     print(f"""Getting average yearly prices per region for all""")
     # read data through jdbc from Hive
@@ -24,11 +26,13 @@ def extractHiveData():
     #house_df.show(5, False)
     return house_df
 
+@pytest.fixture(scope = "session")
 def loadIntoMysqlTable(house_df):
     # write to Mysql table
     s.writeTableToMysql(house_df,"overwrite",config['MysqlVariables']['dbschema'],config['MysqlVariables']['sourceTable'])
     print(f"""created {config['MysqlVariables']['sourceTable']}""")
 
+@pytest.fixture(scope = "session")
 def readSourceData():
     # read source table
     table = ctest['statics']['dbschema'] + '.' + ctest['statics']['sourceTable']
@@ -48,6 +52,7 @@ def readSourceData():
         print(f"""{e}, quitting""")
         sys.exit(1)
 
+@pytest.fixture(scope = "session")
 def transformData():
     # 2) extract
     read_df = readSourceData()
@@ -68,6 +73,7 @@ def transformData():
         print(f"""{e}, quitting""")
         sys.exit(1)
 
+@pytest.fixture(scope = "session")
 def saveData():
     # Write to test target table
     transformation_df = transformData()
@@ -87,6 +93,7 @@ def saveData():
         print(f"""{e}, quitting""")
         sys.exit(1)
 
+@pytest.fixture(scope = "session")
 def readSavedData():
     # read target table to tally the result
     table = ctest['statics']['dbschema'] + '.' + ctest['statics']['yearlyAveragePricesAllTable']
